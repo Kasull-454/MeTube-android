@@ -99,3 +99,11 @@ jobs:
       - name: Build ${{ matrix.app }}
         run: flutter build apk --debug
         working-directory: apps/${{ matrix.app }}
+
+      # The debug APK as a downloadable file: Actions run page, "Artifacts".
+      - name: Upload ${{ matrix.app }} debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-debug-apk
+          path: apps/${{ matrix.app }}/build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 30
