@@ -200,21 +200,6 @@ class _ShellScreenState extends ConsumerState<ShellScreen>
   static bool _isPurePlaylistLink(String url) =>
       PlaylistDetector.isPlaylist(url) && UrlKit.youtubeVideoId(url) == null;
 
-  /// A link waiting in the clipboard is acted on directly when the button
-  /// is pressed.
-  void _onFabPressed() {
-    final clipboardUrl = ref.read(clipboardUrlProvider);
-    if (clipboardUrl != null) {
-      if (startQuickDownload(context, ref, clipboardUrl)) {
-        ref.read(clipboardUrlProvider.notifier).state = null;
-        return;
-      }
-      openAddSheet(context, ref, initialUrl: clipboardUrl);
-      return;
-    }
-    openAddSheet(context, ref);
-  }
-
   /// The clipboard bar: **it folds away and does not return** for the same
   /// link during this session.
   void _dismissClipboard() {
@@ -260,28 +245,10 @@ class _ShellScreenState extends ConsumerState<ShellScreen>
 
     return Scaffold(
       body: widget.navigationShell,
+      // There is no floating "add link" button: a copied link shows the
+      // clipboard bar below, and a shared link opens the add sheet.
       // The mini player is a permanent bar **above** the bottom bar, inside
-      // the
-      // same slot so Scaffold accounts for its height and lifts the add
-      // button
-      // over it (log §4).
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
-      floatingActionButton: MTHiddenUnderRoutes(
-        // It hides under any sheet or dialog: it used to cover the "about
-        // this clip" link and crowd the bottom sheets' actions (field
-        // report 2026-09-02).
-        visible: branch != 2,
-        child: MTFab(
-          label: clipboardUrl == null
-              ? l10n.addLinkFab
-              : l10n.clipboardLinkReady,
-          highlighted: clipboardUrl != null,
-          onPressed: _onFabPressed,
-        ),
-      ),
-      // The mini player is a permanent bar **above** the bottom bar, inside
-      // the same slot so Scaffold accounts for its height and lifts the add
-      // button over it (log §4).
+      // the same slot so Scaffold accounts for its height (log §4).
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

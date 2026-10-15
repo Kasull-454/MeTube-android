@@ -63,7 +63,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       expect(tester.takeException(), isNull);
       expect(find.byType(MTEmptyState), findsOneWidget);
-      expect(find.byType(MTFab), findsOneWidget);
+      // The floating add-link button was removed.
+      expect(find.byType(MTFab), findsNothing);
     },
   );
 
