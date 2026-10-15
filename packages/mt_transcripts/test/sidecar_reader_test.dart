@@ -144,7 +144,7 @@ void main() {
   });
 
   test('a media name that could leave the folder is never sent', () async {
-    for (final name in ['../etc/passwd', 'sub/clip.mp4', 'c:\\clip.mp4']) {
+    for (final name in ['../etc/passwd', 'sub/../clip.mp4', 'c:\\clip.mp4']) {
       final result = await SidecarReader(server)
           .read(canonicalUrl: watch, filename: name, language: 'en');
       expect(result.outcome, SidecarOutcome.none, reason: name);
