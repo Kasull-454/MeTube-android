@@ -433,7 +433,15 @@ void main() {
       });
     }
 
-    for (final bad in ['', '.', '..', '../secret', 'a/../b.mp4', '/a.mp4', r'a\b.mp4']) {
+    for (final bad in [
+      '',
+      '.',
+      '..',
+      '../secret',
+      'a/../b.mp4',
+      '/a.mp4',
+      r'a\b.mp4',
+    ]) {
       test('the path guard rejects "$bad"', () {
         final (client, _) = makeClient((o) => _json('{}'));
         expect(
