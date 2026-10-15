@@ -184,18 +184,27 @@ class _ItemTagsSheetState extends ConsumerState<_ItemTagsSheet> {
             else if (_all.isEmpty)
               Text(l10n.noTagsYet, style: Theme.of(context).textTheme.bodySmall)
             else
-              Wrap(
-                spacing: MTSpace.xs + 1,
-                runSpacing: MTSpace.xs + 1,
-                children: [
-                  for (final tag in _all)
-                    FilterChip(
-                      label: Text('# $tag'),
-                      selected: _selected.contains(tag),
-                      showCheckmark: false,
-                      onSelected: (_) => _toggle(tag),
-                    ),
-                ],
+              // **The chips scroll, the input row stays put.** With dozens
+              // of tags the Wrap grew past the sheet and pushed the new-tag
+              // field and its button off screen, with no way to reach them.
+              // `Flexible` + a scroll view lets the list shrink to the space
+              // that is left while the rows below it stay pinned.
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    spacing: MTSpace.xs + 1,
+                    runSpacing: MTSpace.xs + 1,
+                    children: [
+                      for (final tag in _all)
+                        FilterChip(
+                          label: Text('# $tag'),
+                          selected: _selected.contains(tag),
+                          showCheckmark: false,
+                          onSelected: (_) => _toggle(tag),
+                        ),
+                    ],
+                  ),
+                ),
               ),
             const SizedBox(height: MTSpace.md),
             Row(

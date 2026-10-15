@@ -405,6 +405,15 @@ void main() {
       );
     });
 
+    test('a subfolder path keeps its slashes and encodes each segment', () {
+      final (client, _) = makeClient((o) => _json('{}'));
+      expect(
+        client.downloadUrl('creator name/clip [id]/clip [id].mp4'),
+        'https://metube.example.com/download/'
+        'creator%20name/clip%20%5Bid%5D/clip%20%5Bid%5D.mp4',
+      );
+    });
+
     // **A title truncated with dots is a legitimate name (field report
     // 2026-09-03).** yt-dlp truncates long titles with an ellipsis, and our
     // guard rejected every name containing `..`, so the clip failed with
@@ -424,7 +433,7 @@ void main() {
       });
     }
 
-    for (final bad in ['', '.', '..', '../secret', 'a/b.mp4', r'a\b.mp4']) {
+    for (final bad in ['', '.', '..', '../secret', 'a/../b.mp4', '/a.mp4', r'a\b.mp4']) {
       test('the path guard rejects "$bad"', () {
         final (client, _) = makeClient((o) => _json('{}'));
         expect(

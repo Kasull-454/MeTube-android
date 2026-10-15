@@ -154,7 +154,13 @@ void main() {
     // `contains('..')` condition rejected legitimate files the server
     // genuinely serves (measured: HTTP 206). Traversal needs a path
     // separator, which is rejected below.
-    for (final good in ['x..y', 'مدر... [2077436096300945409].mp4', 'a....b']) {
+    for (final good in [
+      'x..y',
+      'مدر... [2077436096300945409].mp4',
+      'a....b',
+      'a/b.mp4',
+      'creator/clip [id]/clip [id].mp4',
+    ]) {
       test('it accepts "$good"', () {
         expect(UrlKit.isSafeServerFilename(good), isTrue);
       });
@@ -165,7 +171,11 @@ void main() {
       '.',
       '..',
       '../etc/passwd',
-      'a/b.mp4',
+      'a/../b.mp4',
+      '/abs/b.mp4',
+      'a//b.mp4',
+      'a/b/',
+      './a.mp4',
       r'a\b.mp4',
       'a\u0000b.mp4',
     ]) {
