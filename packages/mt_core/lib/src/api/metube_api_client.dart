@@ -599,7 +599,10 @@ class MeTubeApiClient implements MeTubeApi {
     if (!UrlKit.isSafeServerFilename(serverFilename)) {
       throw const UnsafeFilenameException();
     }
-    return '${config.baseUrl}/download/${Uri.encodeComponent(serverFilename)}';
+    // Each segment is encoded on its own so a subfolder path keeps its
+    // slashes ("creator/clip [id]/clip [id].mp4").
+    final path = serverFilename.split('/').map(Uri.encodeComponent).join('/');
+    return '${config.baseUrl}/download/$path';
   }
 
   /// **A one-byte existence check**, the cheapest possible question, on a

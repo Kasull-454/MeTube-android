@@ -194,21 +194,27 @@ abstract final class UrlKit {
 
   /// The path-traversal guard for filenames coming from the server, applied
   /// before building a `/download/<filename>` URL. It rejects the empty
-  /// string, path separators, the components `.` and `..` on their own, and
-  /// the NUL character.
+  /// string, backslashes, empty path segments, the components `.` and `..`
+  /// as a whole segment, and the NUL character. Forward slashes between
+  /// valid segments are allowed (subfolders from MeTube's OUTPUT_TEMPLATE).
   ///
   /// **`..` inside a name is not traversal** (field report 2026-09-03). The
   /// condition used to be `contains('..')`, and yt-dlp truncates long
   /// titles with dots, so **every clip with a long title failed** with
   /// "unsafe filename" even though the server served it happily. Measured
   /// against a real Lite server: a truncated name with an embedded `...`
-  /// returned **HTTP 206 video/mp4**. Traversal needs a path separator,
+  /// returned **HTTP 206 video/mp4**. Traversal needs a `..` segment,
   /// which is rejected anyway.
   static bool isSafeServerFilename(String name) {
     if (name.isEmpty) return false;
-    if (name == '.' || name == '..') return false;
-    if (name.contains('/') || name.contains('\\')) return false;
-    if (name.contains('\u0000')) return false;
+    if (name.contains('\\') || name.contains('\u0000')) return false;
+    // A relative path is allowed ("creator/clip [id]/clip [id].mp4"), which
+    // is what MeTube reports when its OUTPUT_TEMPLATE writes subfolders.
+    // Every segment must be a real name: no empty segment (a leading,
+    // trailing or doubled slash) and no `.` or `..` component.
+    for (final segment in name.split('/')) {
+      if (segment.isEmpty || segment == '.' || segment == '..') return false;
+    }
     return true;
   }
 
