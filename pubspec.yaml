@@ -9,7 +9,6 @@ workspace:
   - packages/mt_transcripts
   - packages/mt_media
   - packages/mt_ui
-  - apps/metube_lite
   - apps/metube_super
 
 # audio_service 0.18.19 with one fix, kept in third_party until upstream has

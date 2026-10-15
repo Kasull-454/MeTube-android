@@ -58,10 +58,6 @@ jobs:
         run: flutter test --no-pub
         working-directory: packages/mt_ui
 
-      - name: Test metube_lite
-        run: flutter test --no-pub
-        working-directory: apps/metube_lite
-
       - name: Test metube_super
         run: flutter test --no-pub
         working-directory: apps/metube_super
@@ -79,7 +75,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [metube_lite, metube_super]
+        app: [metube_super]
 
     steps:
       - uses: actions/checkout@v7

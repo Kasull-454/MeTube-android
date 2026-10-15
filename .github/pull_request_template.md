@@ -7,7 +7,7 @@
 ## Checklist
 
 - [ ] `flutter analyze --no-pub` is clean
-- [ ] All five test suites pass (`mt_core`, `mt_media`, `mt_ui`, `metube_lite`, `metube_super`)
+- [ ] All four test suites pass (`mt_core`, `mt_media`, `mt_ui`, `metube_super`)
 - [ ] New UI text lives in **both** `app_en.arb` and `app_ar.arb`, and `flutter gen-l10n` has been run
 - [ ] Colours and spacing come from the tokens, not from literals — and the screen was checked in **dark mode** as well as light
 - [ ] A change shared through `mt_core` / `mt_ui` / `mt_media` was checked in **both** apps

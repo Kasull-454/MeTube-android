@@ -31,7 +31,7 @@ cd apps/metube_lite  && flutter test --no-pub
 cd apps/metube_super && flutter test --no-pub
 ```
 
-All five suites must be green, and the total must not go **down**. A test that
+All four suites must be green, and the total must not go **down**. A test that
 starts failing means either the code is wrong or a contract changed on purpose —
 the second case needs saying so in the pull request, not deleting the test.
 

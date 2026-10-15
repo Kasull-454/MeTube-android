@@ -40,7 +40,6 @@ FIT = 0.92
 
 CREAM = (251, 246, 238, 255)
 APPS = {
-    'metube_lite': {'accent': (47, 109, 116, 255), 'glyph': 'download'},
     'metube_super': {'accent': (194, 94, 46, 255), 'glyph': 'play'},
 }
 

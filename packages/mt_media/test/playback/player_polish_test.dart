@@ -94,10 +94,10 @@ void main() {
       }
     });
 
-    test('both apps ship the drawable it names', () {
+    test('the app ships the drawable it names', () {
       // A missing resource resolves to id 0 and the button loses its icon.
       final root = Directory.current.parent.parent.path;
-      for (final app in ['metube_lite', 'metube_super']) {
+      for (final app in ['metube_super']) {
         final file = File(
           '$root/apps/$app/android/app/src/main/res/drawable/$mtCloseIcon.xml',
         );
